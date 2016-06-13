@@ -62,7 +62,7 @@
 			return this.showPane(current_pane - 1);
 		},
 
-		backPane: function () {
+		undoPane: function () {
 			current_pane = current_pane + 1;
 			panes.eq(current_pane).show();
 			return 0;
@@ -88,12 +88,14 @@
 
 		undo: function() {
 			if(current_pane < pane_count - 1){
-				$that.backPane();
+				$that.undoPane();
 				panes.eq(current_pane).animate({"transform": "translate( 0px, 0px) rotate(0deg)"}, $that.settings.animationSpeed, function () {
 					if($that.settings.onUndo) {
 						$that.settings.onUndo(panes.eq(current_pane));
 					}	
 				});
+				panes.eq(current_pane).find($that.settings.likeSelector).animate({"opacity": 0}, $that.settings.animationRevertSpeed);
+				panes.eq(current_pane).find($that.settings.dislikeSelector).animate({"opacity": 0}, $that.settings.animationRevertSpeed);
 			}
 		},
 
@@ -154,14 +156,14 @@
 
 					if (opa >= 1) {
 						if (posX > 0) {
-							panes.eq(current_pane).animate({"transform": "translate(" + (pane_width*2) + "px," + (posY) + "px) rotate(180deg)"}, $that.settings.animationSpeed, function () {
+							panes.eq(current_pane).animate({"transform": "translate(" + (pane_width*2) + "px," + (posY) + "px) rotate(90deg)"}, $that.settings.animationSpeed, function () {
 								if($that.settings.onLike) {
 									$that.settings.onLike(panes.eq(current_pane));
 								}
 								$that.next();
 							});
 						} else {
-							panes.eq(current_pane).animate({"transform": "translate(-" + (pane_width*2) + "px," + (posY) + "px) rotate(-180deg)"}, $that.settings.animationSpeed, function () {
+							panes.eq(current_pane).animate({"transform": "translate(-" + (pane_width*2) + "px," + (posY) + "px) rotate(-90deg)"}, $that.settings.animationSpeed, function () {
 								if($that.settings.onDislike) {
 									$that.settings.onDislike(panes.eq(current_pane));
 								}
