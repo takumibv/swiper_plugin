@@ -87,12 +87,14 @@
 		},
 
 		undo: function() {
-			$that.backPane();
-			panes.eq(current_pane).animate({"transform": "translate( 0px, 0px) rotate(0deg)"}, $that.settings.animationSpeed, function () {
-				if($that.settings.onUndo) {
-					$that.settings.onUndo(panes.eq(current_pane));
-				}	
-			});
+			if(current_pane < pane_count - 1){
+				$that.backPane();
+				panes.eq(current_pane).animate({"transform": "translate( 0px, 0px) rotate(0deg)"}, $that.settings.animationSpeed, function () {
+					if($that.settings.onUndo) {
+						$that.settings.onUndo(panes.eq(current_pane));
+					}	
+				});
+			}
 		},
 
 		handler: function (ev) {
